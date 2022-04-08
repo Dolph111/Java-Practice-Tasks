@@ -3,25 +3,55 @@ import java.util.Scanner;
 
 public class StepTracker {
     int dayStepGoal = 10000;
-    HashMap<Integer, MonthData> monthToData;
+    HashMap<Integer, MonthData> monthToData = new HashMap<>();
     Scanner scanner = new Scanner(System.in);
+    Converter converter = new Converter();
 
     public StepTracker() {
         for (int i = 0; i < 12; i++)
             monthToData.put(i, new MonthData());
     }
 
-
     //метод ввода количества шагов за день
     public void countOfStepsOfDay() {
-        numberOfMonth(); //человек выбирает месяц
-        int month = scanner.nextInt(); //переменная месяц
-        System.out.println("Введите за какой день месяца нужно сохранить результат");
-        int dateOfDaySteps = scanner.nextInt(); //переменная день месяца
-        System.out.println("Введите количество шагов за этот день");
-        int countOfSteps = scanner.nextInt(); //переменная количество шагов
-        saveResult(month, dateOfDaySteps, countOfSteps);
+        int month = 0;
+        int dateOfDaySteps = 0;
+        int countOfSteps = 0;
 
+        while(true) {
+            numberOfMonth(); //человек выбирает месяц
+            month = scanner.nextInt(); //переменная месяц
+            if (month > 0 && month < 12) {
+                break;
+            } else {
+                System.out.println("Выбранного месяца не сущетсвует");
+                System.out.println("Пожалуйста, выберите корректный месяц" + "\n");
+            }
+        }
+
+        while (true) {
+            System.out.println("Введите за какой день месяца нужно сохранить результат");
+            dateOfDaySteps = scanner.nextInt(); //переменная день месяца
+            if (dateOfDaySteps > 0 && dateOfDaySteps < 31 ) {
+                break;
+            } else {
+                System.out.println("Такого дня в месяце не существует");
+                System.out.println("Пожалуйста, введите существующий день месяца" + "\n");
+            }
+        }
+
+        while (true) {
+            System.out.println("Введите количество шагов за этот день");
+            countOfSteps = scanner.nextInt(); //переменная количество шагов
+            if (countOfSteps > 0) {
+                break;
+            } else {
+                System.out.println("Неверное количество шагов");
+                System.out.println("Пожалуйста, повторите ввод" + "\n");
+            }
+        }
+        saveResult(month, dateOfDaySteps, countOfSteps); //метод сохранения результатов
+        System.out.println("Значения сохранены");
 
     }
 
@@ -51,7 +81,7 @@ public class StepTracker {
         }
     }
 
-    //расписали объект
+    //расписали класс MonthData
     public class MonthData {
         int[] days; //создали список
 
@@ -59,29 +89,45 @@ public class StepTracker {
         public MonthData() {
             days = new int[30];
         }
+
         void addSteps(int day, int steps) { //метод для сохранения данных шагов за день
             days[day - 1] = steps;
         }
 
-        int sumForMonth() {
+        void sumForMonth(MonthData x) { //метод принимает объёкт и находит сумму шагов у этого объекта
+            int maxOfSteps = 0;
             int sumStepsForMonth = 0;
             for(int i = 0; i < 30; i++) {
-
+                System.out.println("За " + (i+1) + " день пройдено:" + days[i]); //вывод шагов за каждый день
+                if(days[i] >= maxOfSteps) {
+                    maxOfSteps = days[i]; //максимум шагов за день
+                }
+                sumStepsForMonth += days[i];
             }
+            int middleofSteps = sumStepsForMonth / 30;
+            System.out.println("За выбранный месяц вы прошли " + sumStepsForMonth + " шагов"); //вывод шагов за мес
+            System.out.println("Максимальное пройденное количество шагов в месяце - " + maxOfSteps); //вывод макс. шагов за день в месяце
+            System.out.println("Среднее количество шагов - " + middleofSteps); //среднее количество шагов
+            System.out.println("Пройденная дистанция - " + converter.convertToKm(sumStepsForMonth) + " км");
+            System.out.println("Количество сожженных килокалорий - " + converter.convertToKK(sumStepsForMonth) + "\n");
         }
 
     }
 
     //метод вывода статистики шагов за месяц
-    int printStatistic() {
+    void printStatistic() {
         System.out.println("Выберите месяц, за который хотите увидеть статистику");
         numberOfMonth();
         int month = scanner.nextInt();
         for(Integer x: monthToData.keySet()) {
             if(x == month) {
-                    monthToData.get(x).sumForMonth();
+                monthToData.get(x).sumForMonth(monthToData.get(x));
             }
         }
+    }
+    //метод ввода новой цели по шагам
+    void newTargetOfSteps(int newSteps) {
+        dayStepGoal = newSteps;
     }
 
 }

@@ -11,11 +11,12 @@ public class Main {
             if (command == 1) {
                 stepTracker.countOfStepsOfDay(); //вызов метода ввода количества шагов за день
             } else if (command == 2) {
-
+                System.out.println("Введите новую цель по шагам");
+                int newTargetOfSteps = scanner.nextInt();
+                stepTracker.newTargetOfSteps(newTargetOfSteps); //вызов метода изменения цели по шагам
+                System.out.println("Новая цель по шагам сохранена");
             } else if (command == 3) {
-
-            } else if (command == 4) {
-                System.out.println("За выбранный месяц вы прошли " + stepTracker.printStatistic() + " шагов");
+                stepTracker.printStatistic();
             } else if (command == 0) {
                 System.out.println("Программа завершена");
                 break;
@@ -30,9 +31,8 @@ public class Main {
     private static void printMenu() {
                 System.out.println("Что вы хотите сделать? ");
                 System.out.println("1 - Ввести количество пройденных шагов за день");
-                System.out.println("2 - Ввести цель по шагам в день");
-                System.out.println("3 - Изменить цель по шагам в день");
-                System.out.println("4 - Вывод статистики шагов за месяц");
+                System.out.println("2 - Изменить цель по шагам в день");
+                System.out.println("3 - Вывод статистики шагов за месяц");
                 System.out.println("0 - Выход");
             }
 
