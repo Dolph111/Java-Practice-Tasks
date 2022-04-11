@@ -97,10 +97,22 @@ public class StepTracker {
         void sumForMonth(MonthData x) { //метод принимает объёкт и находит сумму шагов у этого объекта
             int maxOfSteps = 0;
             int sumStepsForMonth = 0;
+            int bestLine = 0;
+            int middleLine = 0;
             for(int i = 0; i < 30; i++) {
                 System.out.println("За " + (i+1) + " день пройдено:" + days[i]); //вывод шагов за каждый день
                 if(days[i] >= maxOfSteps) {
-                    maxOfSteps = days[i]; //максимум шагов за день
+                    maxOfSteps = days[i]; //подсчёт максимума шагов за день
+                    if (days[i] < days[i+1] && i != 29 ||  i == 29 && days[i] > days[i-1] ) {
+                        middleLine += 1;
+                    } else {
+                        if (middleLine >= bestLine) {
+                        bestLine = middleLine;
+                        middleLine = 0;
+                        } else {
+                            middleLine = 0;
+                        }
+                    }
                 }
                 sumStepsForMonth += days[i];
             }
@@ -109,7 +121,8 @@ public class StepTracker {
             System.out.println("Максимальное пройденное количество шагов в месяце - " + maxOfSteps); //вывод макс. шагов за день в месяце
             System.out.println("Среднее количество шагов - " + middleofSteps); //среднее количество шагов
             System.out.println("Пройденная дистанция - " + converter.convertToKm(sumStepsForMonth) + " км");
-            System.out.println("Количество сожженных килокалорий - " + converter.convertToKK(sumStepsForMonth) + "\n");
+            System.out.println("Количество сожженных килокалорий - " + converter.convertToKK(sumStepsForMonth));
+            System.out.println("Лучшая серия - " + bestLine + "\n");
         }
 
     }
