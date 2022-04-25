@@ -1,27 +1,49 @@
+package com.learning;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Task task;
-        Epic epic;
-        Subtask subtask;
         Manager manager = new Manager();
         Scanner scanner = new Scanner(System.in);
 
+        boolean isRunning = true;
+
         //вызов меню
-        while (true) {
-            printMenu();
+        while (isRunning) {
+            printMenu(); //метод внешнего меню
             int command = scanner.nextInt();
-            if (command == 1) {
-                manager.newTask();
-            } else if (command == 2) {
-                //
-            } else if (command == 0) {
-                System.out.println("Программа завершена");
-                break;
-            } else {
-                System.out.println("Извините, такой команды пока нет");
+
+            Menu menu = Menu.getMenuById(command);
+
+            switch (menu) {
+                case UNKNOWN: {
+                    System.out.println("Unknown command");
+                } break;
+                case CREATE_TASK: {
+                    manager.newTask();
+                } break;
+                case GET_TASKS: {
+                    manager.getTask();
+                } break;
+                case DELETE_ALL_TASKS: {
+                    manager.deleteAllTask();
+                } break;
+                case UPDATE_TASKS: {
+                    manager.updateTasks();
+                } break;
+                case GET_TASK_FOR_ID: {
+                    manager.getTaskForId();
+                } break;
+                case DELETE_TASK_FOR_ID: {
+                    manager.deleteTaskForId();
+                } break;
+                case EXIT: {
+                    isRunning = false;
+                } break;
             }
+
+            System.out.println("Программа завершена");
         }
     }
 
