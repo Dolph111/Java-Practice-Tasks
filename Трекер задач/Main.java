@@ -1,5 +1,3 @@
-package com.learning;
-
 import java.util.Scanner;
 
 public class Main {
@@ -9,45 +7,42 @@ public class Main {
 
         boolean isRunning = true;
 
-        //вызов меню
         while (isRunning) {
-            printMenu(); //метод внешнего меню
+            printMenu();
             int command = scanner.nextInt();
 
             Menu menu = Menu.getMenuById(command);
 
             switch (menu) {
-                case UNKNOWN: {
+                case UNKNOWN:
                     System.out.println("Unknown command");
-                } break;
-                case CREATE_TASK: {
+                    break;
+                case CREATE_TASK:
                     manager.newTask();
-                } break;
-                case GET_TASKS: {
-                    manager.getTask();
-                } break;
-                case DELETE_ALL_TASKS: {
+                    break;
+                case GET_TASKS:
+                    manager.getTasks();
+                    break;
+                case DELETE_ALL_TASKS:
                     manager.deleteAllTask();
-                } break;
-                case UPDATE_TASKS: {
-                    manager.updateTasks();
-                } break;
-                case GET_TASK_FOR_ID: {
+                    break;
+                case UPDATE_TASK:
+                    manager.updateTask();
+                    break;
+                case GET_TASK_FOR_ID:
                     manager.getTaskForId();
-                } break;
-                case DELETE_TASK_FOR_ID: {
+                    break;
+                case DELETE_TASK_FOR_ID:
                     manager.deleteTaskForId();
-                } break;
-                case EXIT: {
+                    break;
+                case EXIT:
                     isRunning = false;
-                } break;
+                    break;
             }
-
-            System.out.println("Программа завершена");
         }
+        System.out.println("Программа завершена");
     }
 
-    //Реализация меню
     private static void printMenu() {
         System.out.println("Что вы хотите сделать?");
         System.out.println("1 - Создать задачу");

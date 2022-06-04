@@ -1,20 +1,22 @@
-package com.learning;
-
-import com.learning.model.Epic;
-import com.learning.model.Status;
-import com.learning.model.Subtask;
-import com.learning.model.Task;
+import model.Epic;
+import model.Status;
+import model.Subtask;
+import model.Task;
 
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Manager {
+    private static final int ADD_NEW_SUBTASK = 1;
+    private static final int FINISH_SUBTASK_CREATION = 2;
+    private static final String HASH_MAP_IS_EMPTY = "Список задач пуст. Вначале добавьте задачу";
+
     Scanner scanner = new Scanner(System.in);
     HashMap<Integer, Task> storage = new HashMap<>();
 
-    //метод создания задачи
+
     public void newTask() {
-        Task task = new Task(); //создали объект задачу
+        Task task = new Task();
 
         System.out.println("Введите название задачи");
         task.name = scanner.nextLine();
@@ -26,28 +28,13 @@ public class Manager {
         System.out.println("Есть ли у этой задачи какие-то подзадачи?");
         System.out.println("1 - есть подзадачи");
         System.out.println("2 - нет подзадач");
-        int command2 = scanner.nextInt();
-        scanner.nextLine(); //считать пустую строку после nextInt()
-        if (command2 == 1) {
-            Epic epic = new Epic(task); //передали в эпик задачу.
-            addSubtask(epic);
+        int command = scanner.nextInt();
+        scanner.nextLine();
 
-            boolean hasMoreSubtasks = true;
-            while (hasMoreSubtasks) {
-                System.out.println("Добавить еще: 1 - да, 2 - нет");
-                int newSubtask = scanner.nextInt();
-                scanner.nextLine(); //считать пустую строку после nextInt()
-                if (newSubtask == 1) {
-                    addSubtask(epic);
-                } else {
-                    hasMoreSubtasks = false;
-                }
-            }
+        if (command == ADD_NEW_SUBTASK) {
+            createSubtask(task);
 
-            int taskId = IdGenerator.nextId();
-            storage.put(taskId, epic);
-            System.out.println("New epic created with ID " + taskId + "\n" + epic);
-        } else if (command2 == 2) {
+        } else if (command == FINISH_SUBTASK_CREATION) {
             int taskId = IdGenerator.nextId();
             storage.put(taskId, task);
             System.out.println("New task created with ID " + taskId + "\n" + task);
@@ -69,54 +56,88 @@ public class Manager {
         epic.tasks.add(task);
     }
 
-    //Метод вывода списка всех задач
-    public void getTask() {
-        System.out.println("Список всех задач: ");
-        for (Integer key : storage.keySet()) {
-            System.out.println(storage.get(key));
-        }
-    }
 
-    //Метод удаления всех задач
-    public void deleteAllTask() {
-        storage.clear();
-        System.out.println("Все задачи были удалены");
-    }
-
-    //Метод получения задачи по номеру
-    public void getTaskForId() {
-        System.out.println("Введите номер задачи");
-        int idForTask = scanner.nextInt();
-        scanner.nextLine(); //считать пустую строку после nextInt()
-        for (Integer key: storage.keySet()) {
-            if (idForTask == key) {
+    public void getTasks() {
+        if (storage.isEmpty()) {
+            System.out.println(HASH_MAP_IS_EMPTY);
+        } else {
+            System.out.println("Список всех задач: ");
+            for (Integer key : storage.keySet()) {
                 System.out.println(storage.get(key));
             }
         }
     }
 
-    //Метод удаления задачи по номеру
-    public void deleteTaskForId() {
-        System.out.println("Введите номер задачи");
+
+    public void deleteAllTask() {
+        if (storage.isEmpty()) {
+            System.out.println(HASH_MAP_IS_EMPTY);
+        } else {
+            storage.clear();
+            System.out.println("Все задачи были удалены");
+        }
+    }
+
+
+    public void getTaskForId() {
+        if (storage.isEmpty()) {
+            System.out.println(HASH_MAP_IS_EMPTY);
+        } else {
+        System.out.println("Введите номер задачи, которую нужно удалить");
         int idForTask = scanner.nextInt();
-        scanner.nextLine(); //считать пустую строку после nextInt()
-        for (Integer key: storage.keySet()) {
-            if (idForTask == key) {
-                System.out.println(storage.remove(key));
+        scanner.nextLine();
+        if (storage.containsKey(idForTask)) {
+                    System.out.println(storage.get(idForTask));
+        } else {
+                System.out.println("Задача с ID " + idForTask + " не найдена");
             }
         }
     }
 
-    //Метод обновления задачи
-    public void updateTasks() {
-        Task task = new Task(); //создали новый объект задачу
-        System.out.println("Выберите ID задачи, которую надо обновить");
-        for (Integer key: storage.keySet()) {
-            System.out.println(key + ": " + storage.get(key));
+    public void deleteTaskForId() {
+        if (storage.isEmpty()) {
+            System.out.println(HASH_MAP_IS_EMPTY);
+        } else {
+            String idForDelete = "";
+            System.out.println("Введите номер задачи");
+            int idForTask = scanner.nextInt();
+            scanner.nextLine();
+            if (storage.containsKey(idForTask)) {
+                System.out.println(storage.remove(idForTask));
+                System.out.println("Задача с номером " + idForTask + " удалена");
+            } else {
+                    System.out.println("Задача с ID " + idForTask + " не найдена");
+                }
+            }
         }
-        int idTaskForUpdate = scanner.nextInt();
-        scanner.nextLine(); //считать пустую строку после nextInt()
 
+    void createSubtask(Task task) {
+        Epic epic = new Epic(task); //передали в эпик задачу.
+        addSubtask(epic);
+
+        boolean hasMoreSubtasks = true;
+        while (hasMoreSubtasks) {
+            System.out.println("Добавить еще: 1 - да, 2 - нет");
+            int newSubtask = scanner.nextInt();
+            scanner.nextLine();
+            if (newSubtask == ADD_NEW_SUBTASK) {
+                addSubtask(epic);
+            } else {
+                hasMoreSubtasks = false;
+            }
+        }
+
+        int taskId = IdGenerator.nextId();
+        storage.put(taskId, epic);
+        System.out.println("New epic created with ID " + taskId + "\n" + epic);
     }
 
+    public void updateTask() {
+        if (storage.isEmpty()) {
+            System.out.println(HASH_MAP_IS_EMPTY);
+        } else {
+            new UpdateTask(this).updateTask(); //UpdateTask updateTask = new UpdateTask();
+            //updateTask.updateTask();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.learning.model;
+package model;
 
 public class Task {
     public String name;

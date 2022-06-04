@@ -1,5 +1,3 @@
-package com.learning;
-
 import java.util.Arrays;
 
 public enum Menu {
@@ -9,7 +7,7 @@ public enum Menu {
     GET_TASKS(2),
     DELETE_ALL_TASKS(3),
     GET_TASK_FOR_ID(4),
-    UPDATE_TASKS(5),
+    UPDATE_TASK(5),
     DELETE_TASK_FOR_ID(6);
 
     int number;
@@ -19,7 +17,7 @@ public enum Menu {
     }
 
     public static Menu getMenuById(Integer number) {
-        return Arrays.stream(Menu.values()).filter(menu -> menu.number == number).findFirst().orElse(UNKNOWN);
+        return Arrays.stream(Menu.values()).filter(menu -> menu.number == number).findFirst().orElse(EXIT);
     }
 
 //        System.out.println("Что вы хотите сделать?");
