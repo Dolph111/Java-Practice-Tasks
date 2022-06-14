@@ -1,3 +1,5 @@
+package com.learning;
+
 public class IdGenerator {
     static int currentId = 1;
 

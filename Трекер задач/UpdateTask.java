@@ -1,6 +1,8 @@
-import model.Status;
-import model.Task;
-import model.UpdateTaskMenu;
+package com.learning;
+
+import com.learning.model.Status;
+import com.learning.model.Task;
+import com.learning.model.UpdateTaskMenu;
 
 public class UpdateTask {
     private static final String IS_STRING_A_NUMBER_REGEXP = "-?\\d+";
@@ -77,19 +79,16 @@ public class UpdateTask {
             } break;
             case NEW: {
                 taskToUpdate.status = Status.NEW;
-                manager.storage.put(taskId, taskToUpdate);
                 System.out.println(taskToUpdate);
                 System.out.println(COMPLETED);
             } break;
             case IN_PROGRESS: {
                 taskToUpdate.status = Status.IN_PROGRESS;
-                manager.storage.put(taskId, taskToUpdate);
                 System.out.println(taskToUpdate);
                 System.out.println(COMPLETED);
             } break;
             case DONE: {
                 taskToUpdate.status = Status.DONE;
-                manager.storage.put(taskId, taskToUpdate);
                 System.out.println(taskToUpdate);
                 System.out.println(COMPLETED);
             } break;

@@ -1,3 +1,5 @@
+package com.learning;
+
 import java.util.Arrays;
 
 public enum Menu {
@@ -19,14 +21,4 @@ public enum Menu {
     public static Menu getMenuById(Integer number) {
         return Arrays.stream(Menu.values()).filter(menu -> menu.number == number).findFirst().orElse(EXIT);
     }
-
-//        System.out.println("Что вы хотите сделать?");
-//        System.out.println("1 - Создать задачу");
-//        System.out.println("2 - Получить список всех задач");
-//        System.out.println("3 - Удалить все задачи");
-//        System.out.println("4 - Получить задачу по номеру");
-//        System.out.println("5 - Обновить задачу");
-//        System.out.println("6 - Удалить задачу по номеру");
-//        System.out.println(("0 - Завершить работу"));
-
 }

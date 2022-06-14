@@ -1,3 +1,5 @@
+package com.learning;
+
 import java.util.Scanner;
 
 public class Main {

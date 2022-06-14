@@ -1,7 +1,9 @@
-import model.Epic;
-import model.Status;
-import model.Subtask;
-import model.Task;
+package com.learning;
+
+import com.learning.model.Epic;
+import com.learning.model.Status;
+import com.learning.model.Subtask;
+import com.learning.model.Task;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -55,12 +57,16 @@ public class Manager {
         task.status = Status.NEW;
         epic.tasks.add(task);
     }
-
-
-    public void getTasks() {
+    
+    private boolean storageNotEmpty() {
         if (storage.isEmpty()) {
             System.out.println(HASH_MAP_IS_EMPTY);
-        } else {
+        }
+        return !storage.isEmpty();
+    }
+
+    public void getTasks() {
+        if (storageNotEmpty()) {
             System.out.println("Список всех задач: ");
             for (Integer key : storage.keySet()) {
                 System.out.println(storage.get(key));
@@ -70,9 +76,7 @@ public class Manager {
 
 
     public void deleteAllTask() {
-        if (storage.isEmpty()) {
-            System.out.println(HASH_MAP_IS_EMPTY);
-        } else {
+        if (storageNotEmpty()) {
             storage.clear();
             System.out.println("Все задачи были удалены");
         }
@@ -80,9 +84,7 @@ public class Manager {
 
 
     public void getTaskForId() {
-        if (storage.isEmpty()) {
-            System.out.println(HASH_MAP_IS_EMPTY);
-        } else {
+        if (storageNotEmpty()) {
         System.out.println("Введите номер задачи, которую нужно удалить");
         int idForTask = scanner.nextInt();
         scanner.nextLine();
@@ -95,9 +97,7 @@ public class Manager {
     }
 
     public void deleteTaskForId() {
-        if (storage.isEmpty()) {
-            System.out.println(HASH_MAP_IS_EMPTY);
-        } else {
+        if (storageNotEmpty()) {
             String idForDelete = "";
             System.out.println("Введите номер задачи");
             int idForTask = scanner.nextInt();
@@ -133,10 +133,9 @@ public class Manager {
     }
 
     public void updateTask() {
-        if (storage.isEmpty()) {
-            System.out.println(HASH_MAP_IS_EMPTY);
-        } else {
-            new UpdateTask(this).updateTask(); //UpdateTask updateTask = new UpdateTask();
+        if (storageNotEmpty()) {
+            new UpdateTask(this).updateTask();
+            // UpdateTask updateTask = new UpdateTask();
             //updateTask.updateTask();
         }
     }

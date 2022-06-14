@@ -1,4 +1,4 @@
-package model;
+package com.learning.model;
 
 import java.util.Arrays;
 
