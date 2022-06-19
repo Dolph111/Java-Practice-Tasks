@@ -21,10 +21,10 @@ public class StepTracker {
         while(true) {
             numberOfMonth(); //человек выбирает месяц
             month = scanner.nextInt(); //переменная месяц
-            if (month > 0 && month < 12) {
+            if (month >= 0 && month < 12) {
                 break;
             } else {
-                System.out.println("Выбранного месяца не сущетсвует");
+                System.out.println("Выбранного месяца не существует");
                 System.out.println("Пожалуйста, выберите корректный месяц" + "\n");
             }
         }
